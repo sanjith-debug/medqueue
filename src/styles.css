@@ -1,0 +1,68 @@
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+html{scroll-behavior:smooth}
+body{background:#eef9fa;color:#17324d}
+header{background:#087f8c;color:#fff;padding:20px 8%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000}
+.logo{font-size:25px;font-weight:bold}
+nav a{color:#fff;text-decoration:none;margin-left:25px}
+.hero{text-align:center;padding:60px 20px;background:linear-gradient(135deg,#e5ffff,#dff2ff)}
+.hero h1{font-size:48px;color:#075985}.hero h1 span{color:#087f8c}
+.hero p{max-width:650px;margin:20px auto;line-height:1.7;color:#60798a}
+.btn{background:#087f8c;color:#fff;border:none;padding:14px 24px;border-radius:9px;cursor:pointer;font-size:16px;font-weight:bold}
+.btn:hover{background:#06636d}
+.container{max-width:1100px;margin:40px auto;padding:20px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.card,.travel-card{background:#fff;padding:28px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,.08)}
+.travel-card,.dashboard{margin-top:30px}
+.card h2,.travel-card h2{color:#075985;margin-bottom:18px}
+label{display:block;margin:14px 0 6px;font-weight:bold}
+input,select{width:100%;padding:12px;border:1px solid #ccdce3;border-radius:8px;font-size:15px;outline:none}
+input:focus,select:focus{border-color:#087f8c}
+.form-btn{width:100%;margin-top:20px}
+.location-box{background:#f0fbff;padding:18px;border-radius:12px;margin:20px 0 12px;border-left:5px solid #087f8c}
+.location-box h3{color:#075985;margin-bottom:8px}
+.location-status{color:#60798a;line-height:1.5}
+.small-btn{margin:10px 8px 0 0;padding:10px 14px;border:none;border-radius:8px;background:#075985;color:#fff;cursor:pointer}
+.ticket{background:linear-gradient(135deg,#087f8c,#075985);color:#fff;text-align:center}
+.ticket h2{color:#fff}
+.token{font-size:70px;font-weight:bold;margin:14px 0}
+.ticket-info{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.ticket-info div,.queue-status{background:rgba(255,255,255,.15);padding:15px;border-radius:10px}
+.ticket-info span{display:block;font-size:13px;opacity:.8}
+.ticket-info strong{display:block;font-size:22px;margin-top:6px}
+.queue-status{margin-top:16px}
+.badges{margin-top:10px;min-height:22px}
+.qrbox{display:none;margin-top:16px;background:#fff;color:#17324d;border-radius:12px;padding:14px}
+.qrcode{display:flex;justify-content:center;margin-bottom:8px}
+.qrbox p{font-size:13px}
+.travel-grid,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.travel-item,.stat{background:#f0fbff;padding:20px;border-radius:12px;text-align:center}
+.travel-item span,.stat span{display:block;color:#60798a;font-size:13px}
+.travel-item strong{display:block;color:#087f8c;font-size:25px;margin-top:8px}
+.stat strong{display:block;font-size:30px;color:#087f8c;margin-bottom:6px}
+.travelsrc{margin-top:14px;text-align:center;color:#60798a;font-size:14px}
+.leave-box{margin-top:18px;padding:22px;border-radius:12px;background:#e8fff2;color:#126b45;text-align:center;font-size:18px;font-weight:bold;line-height:1.5}
+.leave-box.danger{background:#ffe5e5;color:#a10000}
+.alert-box{display:none;position:fixed;right:25px;bottom:25px;width:340px;background:#fff;border-left:7px solid #087f8c;padding:22px;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.2);z-index:9999}
+.alert-box h3{color:#087f8c;margin-bottom:10px}
+.alert-box button{margin-top:15px;background:#087f8c;color:#fff;border:none;padding:10px 18px;border-radius:7px;cursor:pointer}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.actions .btn{flex:1;min-width:180px}
+.btn.grey{background:#60798a}
+.walkin{display:grid;grid-template-columns:2fr 2fr auto auto;gap:10px;align-items:center;margin-top:18px}
+.walkin label{margin:0;display:flex;gap:6px;align-items:center;font-weight:normal}
+.walkin input[type=checkbox]{width:auto}
+.tbl{overflow-x:auto;margin-top:22px}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #e1edf2;font-size:14px;vertical-align:middle}
+th{color:#075985}
+tr.called{background:#e8fff2}tr.absent{background:#fff3cd}
+td small{color:#60798a}
+td button{margin:2px 4px 2px 0;padding:6px 10px;border:none;border-radius:6px;background:#087f8c;color:#fff;cursor:pointer;font-size:12px}
+td button.d{background:#c0392b}
+.tag{display:inline-block;padding:3px 8px;border-radius:20px;font-size:12px;background:#e1edf2;color:#17324d;margin:2px 4px 2px 0}
+.tag.red{background:#ffe5e5;color:#a10000}.tag.green{background:#d8f5e5;color:#126b45}
+.badges .tag{background:rgba(255,255,255,.2);color:#fff}
+footer{text-align:center;background:#123047;color:#fff;padding:35px;margin-top:50px}
+footer p{color:#a8bdc8;margin-top:8px}
+@media(max-width:800px){header{flex-direction:column;gap:15px}nav a{margin:0 8px}.hero h1{font-size:36px}.cards{grid-template-columns:1fr}.travel-grid,.stats{grid-template-columns:1fr 1fr}.walkin{grid-template-columns:1fr}.alert-box{left:15px;right:15px;bottom:15px;width:auto}}
+@media(max-width:500px){.travel-grid,.stats,.ticket-info{grid-template-columns:1fr}}
