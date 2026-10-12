@@ -13,6 +13,9 @@ const seed = () => ({
   })),
 });
 
+// Actions only the receptionist may perform (protected by the RECEPTION_PIN environment variable)
+const STAFF_ACTIONS = new Set(["callNext", "urgent", "absent", "done", "end", "requeue", "reset"]);
+
 const waitingQueue = (S) =>
   S.patients.filter((x) => x.status === "waiting")
     .sort((a, b) => (b.priority - a.priority) || (a.order - b.order));
@@ -25,6 +28,14 @@ export default async (req) => {
   if (req.method === "POST") {
     let b;
     try { b = await req.json(); } catch { return Response.json({ error: "Bad JSON" }, { status: 400 }); }
+    const PIN = process.env.RECEPTION_PIN;
+    const pinOk = !!PIN && req.headers.get("x-pin") === PIN;
+    if (b.action === "login") {
+      if (!PIN) return Response.json({ error: "RECEPTION_PIN is not set on the server" }, { status: 500 });
+      return pinOk ? Response.json({ ok: true }) : Response.json({ error: "Wrong PIN" }, { status: 401 });
+    }
+    const staffOnly = STAFF_ACTIONS.has(b.action) || (b.action === "join" && (b.walkin || b.urgent));
+    if (staffOnly && !pinOk) return Response.json({ error: "Receptionist PIN required" }, { status: 401 });
     const p = S.patients.find((x) => x.token === Number(b.token));
 
     switch (b.action) {

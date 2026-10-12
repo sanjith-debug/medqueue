@@ -20,9 +20,14 @@ export function useQueue() {
     try {
       const r = await fetch("/api/state", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-pin": sessionStorage.getItem("mq_pin") || "" },
         body: JSON.stringify({ action, ...data }),
       });
+      if (r.status === 401) {
+        sessionStorage.removeItem("mq_pin");
+        window.dispatchEvent(new Event("mq-locked"));
+        return null;
+      }
       const s = await r.json();
       if (!r.ok) { alert(s.error || "Request failed"); return null; }
       setState(s);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQueue } from "../useQueue.js";
 import { DEPTS, pad, sortQueue } from "../lib.js";
 
@@ -35,7 +35,7 @@ function Row({ p, send }) {
   );
 }
 
-export default function Reception() {
+function Dashboard({ onLock }) {
   const { state, send, error } = useQueue();
   const [wName, setWName] = useState("");
   const [wDept, setWDept] = useState(DEPTS[0]);
@@ -78,6 +78,7 @@ export default function Reception() {
         <div className="actions">
           <button className="btn" onClick={callNext}>📢 Call Next Patient</button>
           <button className="btn grey" onClick={reset}>♻️ Reset Demo Data</button>
+          <button className="btn grey" onClick={onLock}>🔒 Lock</button>
         </div>
 
         <div className="walkin">
@@ -101,4 +102,47 @@ export default function Reception() {
       </div>
     </div>
   );
+}
+
+export default function Reception() {
+  const [unlocked, setUnlocked] = useState(!!sessionStorage.getItem("mq_pin"));
+  const [pin, setPin] = useState("");
+  const [msg, setMsg] = useState("");
+
+  useEffect(() => {
+    const f = () => { setUnlocked(false); setMsg("PIN required. Please enter it again."); };
+    window.addEventListener("mq-locked", f);
+    return () => window.removeEventListener("mq-locked", f);
+  }, []);
+
+  async function login(e) {
+    e.preventDefault();
+    try {
+      const r = await fetch("/api/state", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-pin": pin },
+        body: JSON.stringify({ action: "login" }),
+      });
+      if (r.ok) { sessionStorage.setItem("mq_pin", pin); setUnlocked(true); setMsg(""); setPin(""); }
+      else { const j = await r.json().catch(() => ({})); setMsg(j.error || "Wrong PIN."); }
+    } catch { setMsg("Server not reachable."); }
+  }
+  function lock() { sessionStorage.removeItem("mq_pin"); setUnlocked(false); }
+
+  if (!unlocked) {
+    return (
+      <div className="container">
+        <div className="card" style={{ maxWidth: 420, margin: "0 auto" }}>
+          <h2>🔒 Receptionist Login</h2>
+          <form onSubmit={login}>
+            <label>Enter PIN</label>
+            <input type="password" inputMode="numeric" value={} onChange={(e) => setPin(e.target.value)} autoFocus />
+            <button className="btn form-btn" type="submit">Unlock</button>
+          </form>
+          {msg && <p style={{ marginTop: 15, color: "#a10000", fontWeight: "bold" }}>{msg}</p>}
+        </div>
+      </div>
+    );
+  }
+  return <Dashboard onLock={lock} />;
 }
